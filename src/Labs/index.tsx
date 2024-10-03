@@ -16,4 +16,7 @@ export default function Labs() {
       </Routes>
     </div>
   );
+
+  
 }
+
