@@ -11,7 +11,7 @@ export default function Dashboard() {
         {/* Course 1 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/1234/Home">
-            <img src="/images/react-logo.png" alt="React JS Course Thumbnail" />
+            <img src="/images/image1.png" alt="React JS Course Thumbnail" />
             <div>
               <h5>CS1234 React JS</h5>
               <p className="wd-dashboard-course-title">Full Stack Software Developer</p>
@@ -22,7 +22,7 @@ export default function Dashboard() {
         {/* Course 2 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/2345/Home">
-            <img src="/images/node-logo.png" alt="Node.js Course Thumbnail" />
+            <img src="/images/image2.png" alt="Node.js Course Thumbnail" />
             <div>
               <h5>CS2345 Node.js</h5>
               <p className="wd-dashboard-course-title">Backend Development with Node.js</p>
@@ -33,7 +33,7 @@ export default function Dashboard() {
         {/* Course 3 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/3456/Home">
-            <img src="/images/python-logo.png" alt="Python AI Course Thumbnail" />
+            <img src="/images/image3.png" alt="Python AI Course Thumbnail" />
             <div>
               <h5>CS3456 Python for AI</h5>
               <p className="wd-dashboard-course-title">AI and Machine Learning with Python</p>
@@ -44,7 +44,7 @@ export default function Dashboard() {
         {/* Course 4 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/4567/Home">
-            <img src="/images/data-structures-logo.png" alt="Data Structures Course Thumbnail" />
+            <img src="/images/image4.png" alt="Data Structures Course Thumbnail" />
             <div>
               <h5>CS4567 Data Structures</h5>
               <p className="wd-dashboard-course-title">Learn Efficient Data Management</p>
@@ -55,7 +55,7 @@ export default function Dashboard() {
         {/* Course 5 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/5678/Home">
-            <img src="/images/database-logo.png" alt="Database Systems Course Thumbnail" />
+            <img src="/images/image5.png" alt="Database Systems Course Thumbnail" />
             <div>
               <h5>CS5678 Database Systems</h5>
               <p className="wd-dashboard-course-title">Master SQL and NoSQL Databases</p>
@@ -66,7 +66,7 @@ export default function Dashboard() {
         {/* Course 6 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/6789/Home">
-            <img src="/images/cloud-computing-logo.png" alt="Cloud Computing Course Thumbnail" />
+            <img src="/images/image6.png" alt="Cloud Computing Course Thumbnail" />
             <div>
               <h5>CS6789 Cloud Computing</h5>
               <p className="wd-dashboard-course-title">Scalable Applications in the Cloud</p>
@@ -77,7 +77,7 @@ export default function Dashboard() {
         {/* Course 7 */}
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link" to="/Kanbas/Courses/7890/Home">
-            <img src="/images/mobile-app-logo.png" alt="Mobile App Development Course Thumbnail" />
+            <img src="/images/image7.png" alt="Mobile App Development Course Thumbnail" />
             <div>
               <h5>CS7890 Mobile App Development</h5>
               <p className="wd-dashboard-course-title">Build iOS and Android Apps</p>
