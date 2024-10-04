@@ -9,7 +9,7 @@ export default function App() {
       <div>
         <Routes>
           {/* Default route redirects to Kanbas */}
-          <Route path="/" element={<Navigate to="/Kanbas" />} />
+          <Route path="/" element={<Navigate to="/Labs" />} />
           
           {/* Route to Labs */}
           <Route path="/Labs/*" element={<Labs />} />
