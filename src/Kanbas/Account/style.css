@@ -1,0 +1,40 @@
+#wd-signup-screen {
+    background-color: #f8f9fa;
+  }
+  
+  #wd-signup-screen input {
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #wd-signup-screen .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  #wd-profile-screen {
+    background-color: #f8f9fa;
+  }
+  
+  #wd-profile-screen input,
+  #wd-profile-screen select {
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #wd-profile-screen .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+  }
+  
+  #wd-profile-screen .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+  #wd-profile-screen input,
+  #wd-profile-screen select,
+  #wd-profile-screen .btn {
+    margin-bottom: 10px;
+  }
+  

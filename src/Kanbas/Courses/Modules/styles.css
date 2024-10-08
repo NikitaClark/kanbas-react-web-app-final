@@ -1,0 +1,9 @@
+/* Example styles for collapsed state */
+.collapsed .wd-lessons {
+    display: none;
+  }
+  
+  .wd-module .wd-title {
+    cursor: pointer;
+  }
+  
