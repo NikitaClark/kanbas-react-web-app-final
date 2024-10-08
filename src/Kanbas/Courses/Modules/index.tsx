@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import "./styles.css"; // Assuming you have this CSS file for additional styling
+
+import LessonControlButtons from "./LessonControlButtons";
+import ModuleControlButtons from "./ModuleControlButtons";
+import GreenCheckmark from "./GreenCheckmark";
+import "./styles.css"; // Make sure to include your CSS styles
 
 export default function Modules() {
   const [collapsed, setCollapsed] = useState(false);
@@ -40,60 +44,75 @@ export default function Modules() {
         {/* Week 1, Lecture 1 */}
         <li className={`wd-module mb-3 ${collapsed ? "collapsed" : ""}`}>
           <div className="d-flex justify-content-between align-items-center bg-light p-3 rounded">
-            <div className="wd-title h5 mb-0">Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda</div>
-            <button onClick={() => setCollapsed(!collapsed)} className="btn btn-outline-secondary btn-sm">
-              {collapsed ? "Expand" : "Collapse"}
-            </button>
+            <div className="wd-title h5 mb-0">
+              <GreenCheckmark /> Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda
+            </div>
+            <ModuleControlButtons />
           </div>
           <ul className="wd-lessons list-group mt-2">
-            <li className="wd-lesson list-group-item">
-              <span className="wd-title font-weight-bold">LEARNING OBJECTIVES</span>
-              <ul className="wd-content list-unstyled ms-3">
-                <li className="wd-content-item">Introduction to the course</li>
-                <li className="wd-content-item">Learn what is Web Development</li>
-              </ul>
+            <li className="wd-lesson list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span className="wd-title font-weight-bold">LEARNING OBJECTIVES</span>
+                <ul className="wd-content list-unstyled ms-3">
+                  <li className="wd-content-item">Introduction to the course</li>
+                  <li className="wd-content-item">Learn what is Web Development</li>
+                </ul>
+              </div>
+              <LessonControlButtons />
             </li>
-            <li className="wd-lesson list-group-item">
-              <span className="wd-title font-weight-bold">READING</span>
-              <ul className="wd-content list-unstyled ms-3">
-                <li className="wd-content-item">Full Stack Developer - Chapter 1 - Introduction</li>
-                <li className="wd-content-item">Full Stack Developer - Chapter 2 - Creating Us</li>
-              </ul>
+            <li className="wd-lesson list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span className="wd-title font-weight-bold">READING</span>
+                <ul className="wd-content list-unstyled ms-3">
+                  <li className="wd-content-item">Full Stack Developer - Chapter 1 - Introduction</li>
+                  <li className="wd-content-item">Full Stack Developer - Chapter 2 - Creating Us</li>
+                </ul>
+              </div>
+              <LessonControlButtons />
             </li>
-            <li className="wd-lesson list-group-item">
-              <span className="wd-title font-weight-bold">SLIDES</span>
-              <ul className="wd-content list-unstyled ms-3">
-                <li className="wd-content-item">Introduction to Web Development</li>
-                <li className="wd-content-item">Creating an HTTP server with Node.js</li>
-                <li className="wd-content-item">Creating a React Application</li>
-              </ul>
+            <li className="wd-lesson list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span className="wd-title font-weight-bold">SLIDES</span>
+                <ul className="wd-content list-unstyled ms-3">
+                  <li className="wd-content-item">Introduction to Web Development</li>
+                  <li className="wd-content-item">Creating an HTTP server with Node.js</li>
+                  <li className="wd-content-item">Creating a React Application</li>
+                </ul>
+              </div>
+              <LessonControlButtons />
             </li>
           </ul>
         </li>
 
-        {/* Week 1, Lecture 2 */}
+        {/* Additional module example */}
         <li className={`wd-module mb-3 ${collapsed ? "collapsed" : ""}`}>
           <div className="d-flex justify-content-between align-items-center bg-light p-3 rounded">
-            <div className="wd-title h5 mb-0">Week 1, Lecture 2 - Formatting User Interfaces with HTML</div>
-            <button onClick={() => setCollapsed(!collapsed)} className="btn btn-outline-secondary btn-sm">
-              {collapsed ? "Expand" : "Collapse"}
-            </button>
+            <div className="wd-title h5 mb-0">
+              <GreenCheckmark /> Week 1, Lecture 2 - Formatting User Interfaces with HTML
+            </div>
+            <ModuleControlButtons />
           </div>
           <ul className="wd-lessons list-group mt-2">
-            <li className="wd-lesson list-group-item">
-              <span className="wd-title font-weight-bold">LEARNING OBJECTIVES</span>
-              <ul className="wd-content list-unstyled ms-3">
-                <li className="wd-content-item">Learn how to create user interfaces with HTML</li>
-                <li className="wd-content-item">Deploy the assignment to Netlify</li>
-              </ul>
+            <li className="wd-lesson list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span className="wd-title font-weight-bold">LEARNING OBJECTIVES</span>
+                <ul className="wd-content list-unstyled ms-3">
+                  <li className="wd-content-item">Learn how to create user interfaces with HTML</li>
+                  <li className="wd-content-item">Deploy the assignment to Netlify</li>
+                </ul>
+              </div>
+              <LessonControlButtons />
             </li>
-            <li className="wd-lesson list-group-item">
-              <span className="wd-title font-weight-bold">SLIDES</span>
-              <ul className="wd-content list-unstyled ms-3">
-                <li className="wd-content-item">Introduction to HTML and the DOM</li>
-                <li className="wd-content-item">Formatting Web content with Headings and Paragraphs</li>
-                <li className="wd-content-item">Formatting content with Lists and Tables</li>
-              </ul>
+            <li className="wd-lesson list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span className="wd-title font-weight-bold">SLIDES</span>
+                <ul className="wd-content list-unstyled ms-3">
+                  <li className="wd-content-item">Introduction to HTML and the DOM</li>
+                  <li className="wd-content-item">Formatting Web content with Headings and Paragraphs</li>
+                  <li className="wd-content-item">Formatting content with Lists and Tables</li>
+                </ul>
+              </div>
+              <LessonControlButtons />
             </li>
           </ul>
         </li>

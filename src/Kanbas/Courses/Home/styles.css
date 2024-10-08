@@ -1,0 +1,34 @@
+#wd-course-status {
+    max-width: 350px;
+    margin: auto;
+  }
+  
+  .card {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .btn-secondary {
+    background-color: #f2f2f2;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .btn-outline-danger, .btn-outline-success {
+    font-weight: 500;
+  }
+  
+  .gap-2 > * {
+    margin-bottom: 0.5rem;
+  }
+  

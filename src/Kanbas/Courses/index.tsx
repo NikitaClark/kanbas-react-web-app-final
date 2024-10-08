@@ -2,7 +2,9 @@ import CoursesNavigation from "./Navigation";
 import Assignments from "./Assignments";
 import Modules from "./Modules";
 import Home from "./Home";
+import PeopleTable from "./People/Table";
 import React from 'react';
+
 import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes } from "react-router";
 
@@ -29,6 +31,9 @@ export default function Courses() {
               <Route path="Home" element={<Home />} />
               <Route path="Modules" element={<Modules />} />
               <Route path="Assignments" element={<Assignments />} />
+              <Route path="People" element={<PeopleTable />} />
+
+
 
               {/* Assignment Editor */}
               <Route path="Assignments/:aid" element={<AssignmentEditor />} />

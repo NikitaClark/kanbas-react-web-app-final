@@ -1,4 +1,6 @@
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
+import React from 'react';
+
 export default function GreenCheckmark() {
   return (
     <span className="me-1 position-relative">
