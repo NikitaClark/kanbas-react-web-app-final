@@ -27,6 +27,7 @@ export default function Assignments() {
         <FaPlus className="ms-auto" />
       </h3>
 
+
       {/* Assignment list */}
       <ul id="wd-assignment-list" className="list-group">
         <li className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
