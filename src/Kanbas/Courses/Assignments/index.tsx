@@ -1,8 +1,15 @@
 import React from 'react';
 import { FaSearch, FaPlus, FaEllipsisV, FaCheckCircle } from 'react-icons/fa';
+import { Link, useParams } from 'react-router-dom';
+import { assignments } from '../../Database'; // Import assignments from the database
 import './styles.css'; // Ensure you have appropriate styles in your CSS file
 
 export default function Assignments() {
+  const { cid } = useParams(); // Get the course ID from the URL
+
+  // Filter assignments based on the selected course
+  const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
+
   return (
     <div id="wd-assignments" className="container-fluid p-4">
       {/* Search bar and buttons */}
@@ -27,60 +34,31 @@ export default function Assignments() {
         <FaPlus className="ms-auto" />
       </h3>
 
-
       {/* Assignment list */}
       <ul id="wd-assignment-list" className="list-group">
-        <li className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
-          <div>
-            <a
-              className="wd-assignment-link fw-bold"
-              href="#/Kanbas/Courses/1234/Assignments/123"
-            >
-              A1 - ENV + HTML
-            </a>
-            <div className="text-muted small">
-              Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <FaCheckCircle className="text-success me-2" />
-            <FaEllipsisV />
-          </div>
-        </li>
-        <li className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
-          <div>
-            <a
-              className="wd-assignment-link fw-bold"
-              href="#/Kanbas/Courses/1234/Assignments/124"
-            >
-              A2 - CSS + BOOTSTRAP
-            </a>
-            <div className="text-muted small">
-              Multiple Modules | Not available until May 13 at 12:00am | Due May 20 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <FaCheckCircle className="text-success me-2" />
-            <FaEllipsisV />
-          </div>
-        </li>
-        <li className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
-          <div>
-            <a
-              className="wd-assignment-link fw-bold"
-              href="#/Kanbas/Courses/1234/Assignments/125"
-            >
-              A3 - JAVASCRIPT + REACT
-            </a>
-            <div className="text-muted small">
-              Multiple Modules | Not available until May 20 at 12:00am | Due May 27 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="d-flex align-items-center">
-            <FaCheckCircle className="text-success me-2" />
-            <FaEllipsisV />
-          </div>
-        </li>
+        {filteredAssignments.length > 0 ? (
+          filteredAssignments.map((assignment) => (
+            <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
+              <div>
+                <Link
+                  className="wd-assignment-link fw-bold"
+                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`} // Dynamic assignment links
+                >
+                  {assignment.title}
+                </Link>
+                <div className="text-muted small">
+                  Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts
+                </div>
+              </div>
+              <div className="d-flex align-items-center">
+                <FaCheckCircle className="text-success me-2" />
+                <FaEllipsisV />
+              </div>
+            </li>
+          ))
+        ) : (
+          <li className="list-group-item">No assignments found for this course.</li>
+        )}
       </ul>
     </div>
   );
