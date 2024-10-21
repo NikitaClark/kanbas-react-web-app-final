@@ -7,9 +7,9 @@ import React from 'react';
 
 export default function Kanbas() {
   return (
-    <div> {/* Added missing wrapper div */}
+    <div id="wd-kanbas">
       <KanbasNavigation />
-      <div>
+      <div className="wd-main-content-offset p-3">
         <Routes>
           <Route path="/" element={<Navigate to="Account" />} />
           <Route path="/Account/*" element={<Account />} />
@@ -20,5 +20,5 @@ export default function Kanbas() {
         </Routes>
       </div>
     </div>
-  );
-}
+);}
+
