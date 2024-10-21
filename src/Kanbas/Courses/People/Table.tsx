@@ -44,6 +44,7 @@ export default function PeopleTable() {
               <td className="wd-last-activity">{user.lastActivity}</td>
               <td className="wd-total-activity">{user.totalActivity}</td>
             </tr>
+            
           ))}
         </tbody>
       </table>
