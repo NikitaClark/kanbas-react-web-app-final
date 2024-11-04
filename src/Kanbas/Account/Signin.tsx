@@ -1,21 +1,48 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import "./style.css"; // Adjust the path if necessary
+// src/Kanbas/Account/Signin.tsx
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { setCurrentUser } from "./reducer";
+import { useDispatch } from "react-redux";
+import * as db from "../Database";
 
 export default function Signin() {
+  const [credentials, setCredentials] = useState<{ username?: string; password?: string }>({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const signin = () => {
+    const user = db.users.find(
+      (u: any) => u.username === credentials.username && u.password === credentials.password
+    );
+    if (!user) return;
+    dispatch(setCurrentUser(user));
+    navigate("/Kanbas/Dashboard");
+  };
+
   return (
-    <div id="wd-signin-screen" className="d-flex justify-content-center align-items-center vh-100">
-      <div className="text-center" style={{ maxWidth: "300px", width: "100%" }}>
-        <h3>Sign in</h3>
-        <input className="form-control mb-3" placeholder="username" type="text" />
-        <input className="form-control mb-3" placeholder="password" type="password" />
-        <Link id="wd-signin-btn" className="btn btn-primary w-100 mb-3" to="/Kanbas/Dashboard">
-          Sign in
-        </Link>
-        <Link id="wd-signup-link" className="text-decoration-none" to="/Kanbas/Account/Signup">
-          Sign up
-        </Link>
-      </div>
+    <div id="wd-signin-screen" className="container mt-5">
+      <h1>Sign in</h1>
+      <input
+        value={credentials.username || ""}
+        onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+        className="form-control mb-2"
+        placeholder="Username"
+        id="wd-username"
+      />
+      <input
+        value={credentials.password || ""}
+        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+        className="form-control mb-2"
+        placeholder="Password"
+        type="password"
+        id="wd-password"
+      />
+      <button onClick={signin} id="wd-signin-btn" className="btn btn-primary w-100">
+        Sign in
+      </button>
+      <Link id="wd-signup-link" to="/Kanbas/Account/Signup" className="d-block text-center mt-3">
+        Sign up
+      </Link>
     </div>
   );
 }

@@ -1,65 +1,50 @@
-import React from 'react';
-import { FaSearch, FaPlus, FaEllipsisV, FaCheckCircle } from 'react-icons/fa';
-import { Link, useParams } from 'react-router-dom';
-import { assignments } from '../../Database'; // Import assignments from the database
-import './styles.css'; // Ensure you have appropriate styles in your CSS file
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, updateAssignment, deleteAssignment } from "./reducer";
 
 export default function Assignments() {
-  const { cid } = useParams(); // Get the course ID from the URL
+  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
+  const dispatch = useDispatch();
+  const [newAssignment, setNewAssignment] = useState({ name: "", description: "" });
 
-  // Filter assignments based on the selected course
-  const filteredAssignments = assignments.filter(assignment => assignment.course === cid);
+  const handleAddAssignment = () => {
+    dispatch(addAssignment(newAssignment));
+    setNewAssignment({ name: "", description: "" });
+  };
+
+  const handleUpdateAssignment = (updatedAssignment: any) => {
+    dispatch(updateAssignment(updatedAssignment));
+  };
+
+  const handleDeleteAssignment = (assignmentId: string) => {
+    dispatch(deleteAssignment(assignmentId));
+  };
 
   return (
-    <div id="wd-assignments" className="container-fluid p-4">
-      {/* Search bar and buttons */}
-      <div className="d-flex align-items-center mb-3">
-        <div className="input-group me-auto" style={{ maxWidth: '300px' }}>
-          <span className="input-group-text"><FaSearch /></span>
-          <input
-            type="text"
-            id="wd-search-assignment"
-            className="form-control"
-            placeholder="Search for Assignments"
-          />
-        </div>
-        <button className="btn btn-outline-secondary me-2">+ Group</button>
-        <button className="btn btn-danger">+ Assignment</button>
-      </div>
-
-      {/* Assignments header */}
-      <h3 id="wd-assignments-title" className="mb-3 d-flex align-items-center">
-        <span>ASSIGNMENTS</span>
-        <span className="badge bg-light text-dark ms-2">40% of Total</span>
-        <FaPlus className="ms-auto" />
-      </h3>
-
-      {/* Assignment list */}
-      <ul id="wd-assignment-list" className="list-group">
-        {filteredAssignments.length > 0 ? (
-          filteredAssignments.map((assignment) => (
-            <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex align-items-start justify-content-between">
-              <div>
-                <Link
-                  className="wd-assignment-link fw-bold"
-                  to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`} // Dynamic assignment links
-                >
-                  {assignment.title}
-                </Link>
-                <div className="text-muted small">
-                  Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts
-                </div>
-              </div>
-              <div className="d-flex align-items-center">
-                <FaCheckCircle className="text-success me-2" />
-                <FaEllipsisV />
-              </div>
-            </li>
-          ))
-        ) : (
-          <li className="list-group-item">No assignments found for this course.</li>
-        )}
+    <div>
+      <h3>Assignments</h3>
+      <ul>
+        {assignments.map((assignment: any) => (
+          <li key={assignment._id}>
+            <span>{assignment.name}</span>
+            <button onClick={() => handleUpdateAssignment(assignment)}>Edit</button>
+            <button onClick={() => handleDeleteAssignment(assignment._id)}>Delete</button>
+          </li>
+        ))}
       </ul>
+      <input
+        type="text"
+        placeholder="Assignment Name"
+        value={newAssignment.name}
+        onChange={(e) => setNewAssignment({ ...newAssignment, name: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Assignment Description"
+        value={newAssignment.description}
+        onChange={(e) => setNewAssignment({ ...newAssignment, description: e.target.value })}
+      />
+      <button onClick={handleAddAssignment}>Add Assignment</button>
     </div>
   );
 }

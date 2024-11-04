@@ -1,15 +1,20 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import './style.css'; // Import your custom styles here
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function AccountNavigation() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+  const { pathname } = useLocation();
+
   return (
-    <div id="wd-account-navigation" className="d-flex flex-column align-items-start p-3">
-      <div className="border-start border-2 ps-2 mb-2">
-        <Link to="/Kanbas/Account/Signin" className="text-dark fw-bold d-block mb-2">Signin</Link>
-        <Link to="/Kanbas/Account/Signup" className="text-danger d-block mb-2">Signup</Link>
-        <Link to="/Kanbas/Account/Profile" className="text-danger d-block">Profile</Link>
-      </div>
+    <div className="account-navigation">
+      <ul>
+        {links.map((link) => (
+          <li key={link} className={pathname.includes(link) ? "active" : ""}>
+            <Link to={`/Kanbas/Account/${link}`}>{link}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

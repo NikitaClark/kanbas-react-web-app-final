@@ -8,7 +8,7 @@ export default function AssignmentEditor({ assignment }: { assignment: any }) {
         <input
           id="wd-name"
           className="form-control"
-          defaultValue={assignment.name} // Corrected from `title` to `name`
+          defaultValue={assignment.name} // Changed from `title` to `name`
         />
       </div>
     </div>
