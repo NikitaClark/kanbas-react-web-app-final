@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from './Labs/store';
+import store from './store';
 import App from './App';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -13,9 +13,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}> {/* Wrap with Provider for Redux */}
+    {/* <Provider store={store}> Wrap with Provider for Redux */}
       <App /> {/* App already contains HashRouter */}
-    </Provider>
+    {/* </Provider> */}
   </React.StrictMode>
 );
 
