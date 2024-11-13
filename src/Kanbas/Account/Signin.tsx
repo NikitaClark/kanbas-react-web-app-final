@@ -14,6 +14,7 @@ export default function Signin() {
     const user = db.users.find(
       (u: any) => u.username === credentials.username && u.password === credentials.password
     );
+    console.log(db.users);
     if (!user) return;
     dispatch(setCurrentUser(user));
     navigate("/Kanbas/Dashboard");

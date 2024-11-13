@@ -6,7 +6,6 @@ import todosReducer from "../Labs/Lab4/ReduxExamples/todos/todosReducer";
 import modulesReducer from "../Kanbas/Courses/Modules/reducer";
 import assignmentsReducer from "../Kanbas/Courses/Assignments/reducer";
 import accountReducer from "../Kanbas/Account/reducer";
-import  enrollInCourse  from "../Kanbas/enrollmentsSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,7 +16,6 @@ const store = configureStore({
     modulesReducer: modulesReducer,
     accountReducer: accountReducer,
     assignmentsReducer: assignmentsReducer,
-    enrollInCourse: enrollInCourse,
   },
 });
 

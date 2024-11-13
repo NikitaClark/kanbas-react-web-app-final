@@ -5,6 +5,7 @@ export default function CoursesNavigation() {
   const { cid } = useParams(); // Get the course ID from the URL
   const { pathname } = useLocation(); // Get the current path
 
+  // List of links to display for course navigation
   const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
 
   return (

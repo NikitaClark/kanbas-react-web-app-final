@@ -12,9 +12,8 @@ export default function Modules() {
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
-
   return (
-    <div className="wd-modules">
+    <div className="wd-modules" style={{marginLeft:"150px"}}>
       <ModulesControls
         moduleName={moduleName}
         setModuleName={setModuleName}

@@ -27,7 +27,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="wd-profile-screen">
+    <div className="wd-profile-screen " style={{marginLeft:"150px"}}>
       <h3>Profile</h3>
       {profile && (
         <div>

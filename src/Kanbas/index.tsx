@@ -8,12 +8,16 @@ import React, { useState } from "react";
 import * as db from "./Database";
 
 import './styles.css'
+import KanbasNavigation from "./Navigation";
+import { useSelector } from "react-redux";
+import Modules from "./Courses/Modules";
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>(db.courses);
-
+  const currentUser = useSelector((state: any) => state.accountReducer.currentUser); 
   return (
     <div id="wd-kanbas">
+     {currentUser && <KanbasNavigation />}
       <Routes>
         <Route path="/" element={<Navigate to="Dashboard" />} />
         <Route path="Account/*" element={<Account />} />
@@ -34,10 +38,18 @@ export default function Kanbas() {
           }
         />
         <Route
-          path="Assignments/*"
+          path="Courses/:cid/Assignments/*"
           element={
             <ProtectedRoute>
               <Assignments />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="Courses/:cid/Modules/*"
+          element={
+            <ProtectedRoute>
+              <Modules />
             </ProtectedRoute>
           }
         />

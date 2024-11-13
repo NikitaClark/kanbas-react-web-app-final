@@ -1,20 +1,47 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as db from "./Database";
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router";
+import { enrollInCourse, unenrollFromCourse } from "./enrollmentsSlice";
 export default function Dashboard() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const enrollments = useSelector((state: any) => state.enrollInCourse);
+  const dispatch = useDispatch();
   const isFaculty = currentUser?.role === "FACULTY";
-
+  const navigate = useNavigate();
+  const goToCourse = (courseId: string) => {
+    if (currentUser?.role === "STUDENT" && !isEnrolled(courseId)) {
+      alert("You must enroll in this course to view it.");
+    } else {
+      navigate(`/Kanbas/Courses/${courseId}`);
+    }
+  };
   // State to manage courses, editing mode, and new course form visibility
   const [courses, setCourses] = useState(db.courses);
+  const [publishedCoursesCount, setPublishedCoursesCount] = useState(courses.length);
   const [isEditing, setIsEditing] = useState(false);
   const [editCourseId, setEditCourseId] = useState<string | null>(null);
   const [editCourseData, setEditCourseData] = useState({
     name: "",
     description: ""
   });
-  const [isAdding, setIsAdding] = useState(false); // State to show/hide the "Add New Course" form
+  const handleEnroll = (courseId: string) => {
+    const newEnrollment = { user: currentUser._id, course: courseId };
+    dispatch(enrollInCourse(newEnrollment)); 
+  };
+
+
+  const handleUnenroll = (courseId: string) => {
+    dispatch(unenrollFromCourse({ user: currentUser._id, course: courseId })); 
+  };
+
+
+  const isEnrolled = (courseId: string) => {
+    return enrollments.enrollments.some((e: any) => e.user === currentUser._id && e.course === courseId);
+  };
+  const [isStudentView, setIsStudentView] = useState(false); 
+
+  const [isAdding, setIsAdding] = useState(false); 
   const [newCourseData, setNewCourseData] = useState({
     name: "",
     description: ""
@@ -24,6 +51,7 @@ export default function Dashboard() {
   const handleDeleteCourse = (courseId: string) => {
     const updatedCourses = courses.filter(course => course._id !== courseId);
     setCourses(updatedCourses);
+    setPublishedCoursesCount(prevCount => prevCount - 1);
   };
 
   // Handler to open the edit form
@@ -69,73 +97,105 @@ export default function Dashboard() {
     setCourses([...courses, newCourse]);
     setIsAdding(false); // Close the form
     setNewCourseData({ name: "", description: "" }); // Reset form data
+    setPublishedCoursesCount(prevCount => prevCount + 1); 
   };
-
+  const toggleStudentView = () => {
+    setIsStudentView(prevState => !prevState);
+  };
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {courses.map((course) => (
-        <div key={course._id} className="course-card">
-          <h2>{course.name}</h2>
-          <p>{course.description}</p>
-          {isFaculty && (
-            <div className="course-controls">
-              <button onClick={() => handleEditCourse(course)}>Edit Course</button>
-              <button onClick={() => handleDeleteCourse(course._id)}>Delete Course</button>
+    <div id="wd-dashboard" className="container mt-4 "style={{marginLeft:"150px"}}>
+      <h1 className="text-center">Dashboard</h1>
+      <hr />
+      <h3>Published Courses: {publishedCoursesCount}</h3>
+      {currentUser?.role === "STUDENT" && (
+  <div className="position-absolute top-0 end-0 p-3">
+    <button className="btn btn-info" onClick={toggleStudentView}>
+      {isStudentView ? "View All Courses" : "View My Enrollments"}
+    </button>
+  </div>
+)}
+
+      <div className="row">
+      {courses
+          .filter(course => (isStudentView ? isEnrolled(course._id) : true)) // Filter based on student view
+          .map((course) => (
+          <div key={course._id} className="col-md-4 mb-4">
+            <div className="card">
+            <img
+          src={`/images/react.png`}  
+          className="card-img-top"
+          alt="Course Image"
+        />
+              <div className="card-body">
+                <h5 className="card-title">{course.name}</h5>
+                <p className="card-text">{course.description}</p>
+                {isFaculty ? (
+                  <div className="d-flex justify-content-between align-items-center">
+                    <button className="btn btn-primary"  onClick={() => goToCourse(course._id)}>Go</button>
+                    <div>
+                      <button
+                        className="btn btn-warning me-2"
+                        onClick={() => handleEditCourse(course)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDeleteCourse(course._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ):(
+                  <div className="d-flex justify-content-between align-items-center">
+                        <button className="btn btn-primary"  onClick={() => goToCourse(course._id)}>Go</button>
+                    {isEnrolled(course._id) ? (
+                      <button className="btn btn-danger" onClick={() => handleUnenroll(course._id)}>
+                        Unenroll
+                      </button>
+                    ) : (
+                      <button className="btn btn-success" onClick={() => handleEnroll(course._id)}>
+                        Enroll
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      ))}
-
-      {isEditing && (
-        <div className="popup-form">
-        <div className="popup-content">
-          <h3>Edit Course</h3>
-          <input
-            type="text"
-            name="name"
-            value={editCourseData.name}
-            onChange={handleEditInputChange}
-            placeholder="Course Name"
-          />
-          <input
-            type="text"
-            name="description"
-            value={editCourseData.description}
-            onChange={handleEditInputChange}
-            placeholder="Course Description"
-          />
-          <button onClick={handleSaveEditCourse}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
-        </div>
-        </div>
-      )}
-
-      {isFaculty && <button onClick={() => setIsAdding(true)}>Add New Course</button>}
-
-      {isAdding && (
-        <div className="popup-form">
-          <div className="popup-content">
-            <h3>Add New Course</h3>
-            <input
-              type="text"
-              name="name"
-              value={newCourseData.name}
-              onChange={handleNewCourseInputChange}
-              placeholder="Course Name"
-            />
-            <input
-              type="text"
-              name="description"
-              value={newCourseData.description}
-              onChange={handleNewCourseInputChange}
-              placeholder="Course Description"
-            />
-            <button onClick={handleSaveNewCourse}>Save Course</button>
-            <button onClick={() => setIsAdding(false)}>Cancel</button>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+      {isFaculty && (
+        <div>
+      <div className="mt-4 d-flex justify-content-between align-items-center">
+  <h3>New Course</h3>  
+  <button
+    className={`btn ${isEditing ? "btn-warning" : "btn-primary"}`} 
+    onClick={isEditing ? handleSaveEditCourse : handleSaveNewCourse}
+  >
+    {isEditing ? "Update" : "Add"}
+  </button>
+</div>
+
+<input
+  type="text"
+  name="name"
+  value={isEditing ? editCourseData.name : newCourseData.name}
+  onChange={isEditing ? (e) => setEditCourseData({ ...editCourseData, name: e.target.value }) : handleNewCourseInputChange}
+  className="form-control mb-3"
+  placeholder="Course Name"
+/>
+
+<input
+  type="text"
+  name="description"
+  value={isEditing ? editCourseData.description : newCourseData.description}
+  onChange={isEditing ? (e) => setEditCourseData({ ...editCourseData, description: e.target.value }) : handleNewCourseInputChange}
+  className="form-control mb-3"
+  placeholder="Course Description"
+/>
+</div>  )}
     </div>
   );
 }
