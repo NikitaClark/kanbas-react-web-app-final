@@ -47,7 +47,10 @@ export default function ModuleEditor({
               Cancel
             </button>
             <button
-              onClick={addModule}
+              onClick={() => {
+                addModule();
+                setModuleName(""); // Reset module name after adding
+              }}
               type="button"
               data-bs-dismiss="modal"
               className="btn btn-danger"

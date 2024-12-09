@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import * as courseClient from "../client";
 
 export default function Assignments() {
-  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
-  const dispatch = useDispatch();
-
+  const { cid } = useParams<{ cid: string }>();
+  const [assignments, setAssignments] = useState<any[]>([]);
   const [editingAssignment, setEditingAssignment] = useState<any | null>(null);
   const [newAssignment, setNewAssignment] = useState({
     name: "",
@@ -17,25 +16,38 @@ export default function Assignments() {
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
-  const handleAddAssignment = () => {
-    if (!editingAssignment) {
-      dispatch(addAssignment(newAssignment)); 
-    } else {
-      dispatch(updateAssignment({ ...editingAssignment, ...newAssignment })); 
+  const handleAddAssignment = async () => {
+    try {
+      if (!editingAssignment) {
+        if (cid) {
+          await courseClient.createAssignment(cid, newAssignment);
+          fetchAssignments();
+        }
+      } else {
+        await courseClient.updateAssignment(editingAssignment);
+        setAssignments((prev) =>
+          prev.map((assignment) =>
+            assignment._id === editingAssignment._id ? { ...assignment, ...newAssignment } : assignment
+          )
+        );
+      }
+      setEditingAssignment(null);
+      setNewAssignment({
+        name: "",
+        description: "",
+        points: 0,
+        dueDate: "",
+        availableFrom: "",
+        availableUntil: "",
+      });
+    } catch (error) {
+      console.error("Error adding/updating assignment:", error);
+      alert("Failed to save the assignment. Please try again.");
     }
-    setEditingAssignment(null); 
-    setNewAssignment({
-      name: "",
-      description: "",
-      points: 0,
-      dueDate: "",
-      availableFrom: "",
-      availableUntil: "",
-    });
   };
 
   const handleEditAssignment = (assignment: any) => {
-    setEditingAssignment(assignment); // Set the assignment to be edited
+    setEditingAssignment(assignment);
     setNewAssignment({
       name: assignment.name,
       description: assignment.description,
@@ -47,7 +59,7 @@ export default function Assignments() {
   };
 
   const handleCancelEdit = () => {
-    setEditingAssignment(null); // Reset to stop editing
+    setEditingAssignment(null);
     setNewAssignment({
       name: "",
       description: "",
@@ -59,13 +71,30 @@ export default function Assignments() {
   };
 
   const handleDeleteAssignment = (assignmentId: string) => {
-    setAssignmentToDelete(assignmentId); 
-    setShowDeleteModal(true); 
+    setAssignmentToDelete(assignmentId);
+    setShowDeleteModal(true);
   };
+
+  const deleteAssignment = async (assignmentId: string) => {
+    try {
+      const response = await courseClient.deleteAssignment(assignmentId);
+  
+      if (!response.acknowledged) {
+        throw new Error("Failed to delete assignment");
+      }
+      
+      setAssignments((prevAssignments) =>
+        prevAssignments.filter((assignment) => assignment._id !== assignmentId)
+      );
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+      throw error;
+    }
+  }
 
   const confirmDelete = () => {
     if (assignmentToDelete) {
-      dispatch(deleteAssignment(assignmentToDelete));
+      deleteAssignment(assignmentToDelete);
     }
     setShowDeleteModal(false);
     setAssignmentToDelete(null);
@@ -79,8 +108,25 @@ export default function Assignments() {
     }));
   };
 
+  const fetchAssignments = async () => {
+    try {
+      if (cid) {
+        const response = await courseClient.findAssignmentsForCourse(cid);
+        setAssignments(response);
+      }
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+      alert("Failed to load assignments. Please try again later.");
+    }
+  };
+
+  // Fetch assignments on component mount
+  useEffect(() => {
+    fetchAssignments();
+  }, [cid]);
+
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "20px",marginLeft:"120px" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", padding: "20px", marginLeft: "120px" }}>
       <div style={{ width: "60%" }}>
         <h3>Assignments</h3>
         <ul>
@@ -112,7 +158,7 @@ export default function Assignments() {
 
       <div style={{ width: "35%", padding: "20px", border: "1px solid #ccc" }}>
         <h4>{editingAssignment ? "Edit Assignment" : "Add New Assignment"}</h4>
-        
+
         <div style={{ marginBottom: "10px" }}>
           <label>Assignment Name</label>
           <input
@@ -185,7 +231,7 @@ export default function Assignments() {
           <button onClick={handleAddAssignment} style={{ padding: "10px", flex: 1 }} className="btn btn-success" >
             {editingAssignment ? "Save Changes" : "Save"}
           </button>
-          <button onClick={handleCancelEdit}className="btn btn-secondary" style={{ padding: "10px", flex: 1 }}>Cancel</button>
+          <button onClick={handleCancelEdit} className="btn btn-secondary" style={{ padding: "10px", flex: 1 }}>Cancel</button>
         </div>
       </div>
       <div className={`modal fade ${showDeleteModal ? "show d-block" : ""}`} tabIndex={-1} style={{ display: showDeleteModal ? "block" : "none", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
@@ -209,7 +255,7 @@ export default function Assignments() {
           </div>
         </div>
       </div>
-    
+
     </div>
   );
 }

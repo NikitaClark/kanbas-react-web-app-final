@@ -1,23 +1,34 @@
-// src/Kanbas/Account/Signin.tsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "./reducer";
 import { useDispatch } from "react-redux";
-import * as db from "../Database";
+import axios from "axios"; // Import axios
 
 export default function Signin() {
+  const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
   const [credentials, setCredentials] = useState<{ username?: string; password?: string }>({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signin = () => {
-    const user = db.users.find(
-      (u: any) => u.username === credentials.username && u.password === credentials.password
-    );
-    console.log(db.users);
-    if (!user) return;
-    dispatch(setCurrentUser(user));
-    navigate("/Kanbas/Dashboard");
+  const signin = async () => {
+    try {
+      const response = await axios.post(`${REMOTE_SERVER}/api/users/signin`, credentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      if (response.status === 200) {
+        const user = response.data; // Assuming the API returns the user data
+        dispatch(setCurrentUser(user));
+        navigate("/Kanbas/Dashboard");
+      } else {
+        throw new Error("Invalid credentials");
+      }
+    } catch (error) {
+      console.error(error);
+      // You can display an error message to the user if necessary
+    }
   };
 
   return (

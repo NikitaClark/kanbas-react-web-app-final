@@ -1,29 +1,35 @@
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import React from "react"; // Import CoursesNavigation
 import CoursesNavigation from "./Navigation";
+import * as courseClient from "./client";
 
-interface CoursesProps {
-  courses: any[];
-}
+export default function Kanbas() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [courses, setCourses] = useState<any[]>([]);
+  const fetchCourses = async () => {
+    try {
+      const courses = await courseClient.fetchAllCourses();
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-const Courses: React.FC<CoursesProps> = ({ courses }) => {
-  const { cid } = useParams(); 
-  const course = courses.find((c) => c._id === cid); 
+  const addNewCourse = async () => {
+    // const newCourse = await courseClient.createCourse(course);
+  };
 
-  if (!course) {
-    return <div>Course not found.</div>; 
-  }
-
+  useEffect(() => {
+    fetchCourses();
+  }, [currentUser]);
   return (
-    <div style={{marginLeft:"150px"}}>
-      <CoursesNavigation /> 
-      
-      <h1>{course.name}</h1> 
-      <p>{course.description}</p> 
+    <div style={{ marginLeft: "150px" }}>
+      <CoursesNavigation />
 
+      {/* <h1>{course.name}</h1>
+      <p>{course.description}</p> */}
 
     </div>
   );
-};
-
-export default Courses;
+}

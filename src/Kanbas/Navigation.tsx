@@ -4,6 +4,7 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import React from "react";
+import AccountNavigation from "./Account/Navigation";
 
 export default function KanbasNavigation() {
   const { pathname } = useLocation(); // Get current path
@@ -60,6 +61,7 @@ export default function KanbasNavigation() {
           <div>{link.label}</div>
         </Link>
       ))}
+      <AccountNavigation />
     </div>
   );
 }
